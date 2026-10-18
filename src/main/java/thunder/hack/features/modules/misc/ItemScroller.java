@@ -1,0 +1,37 @@
+package thunder.hack.features.modules.misc;
+
+import meteordevelopment.orbit.EventHandler;
+import net.minecraft.screen.slot.SlotActionType;
+import net.minecraft.screen.slot.Slot;
+import net.minecraft.item.Item;
+import thunder.hack.events.impl.EventClickSlot;
+import thunder.hack.features.modules.Module;
+import thunder.hack.setting.Setting;
+
+public class ItemScroller extends Module {
+   public Setting<Integer> delay = new Setting<>("Delay", 80, 0, 500);
+   private boolean pauseListening = false;
+
+   public ItemScroller() {
+      super("ItemScroller", Module.Category.MISC);
+   }
+
+   @EventHandler
+   public void onClick(EventClickSlot e) {
+      if ((this.isKeyPressed(340) || this.isKeyPressed(344))
+         && (this.isKeyPressed(341) || this.isKeyPressed(345))
+         && e.getSlotActionType() == SlotActionType.THROW
+         && !this.pauseListening) {
+         Item copy = ((Slot)mc.player.currentScreenHandler.slots.get(e.getSlot())).getStack().getItem();
+         this.pauseListening = true;
+
+         for (int i2 = 0; i2 < mc.player.currentScreenHandler.slots.size(); i2++) {
+            if (((Slot)mc.player.currentScreenHandler.slots.get(i2)).getStack().getItem() == copy) {
+               mc.interactionManager.clickSlot(mc.player.currentScreenHandler.syncId, i2, 1, SlotActionType.THROW, mc.player);
+            }
+         }
+
+         this.pauseListening = false;
+      }
+   }
+}

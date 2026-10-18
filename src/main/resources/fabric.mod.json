@@ -1,0 +1,57 @@
+{
+  "schemaVersion": 1,
+  "id": "thunderhack",
+  "version": "1.7",
+  "icon": "icon.png",
+  "name": "ThunderHack",
+  "description": "Player Assistance Mod",
+  "authors": [
+    {
+      "name": "pan4ur",
+      "contact": {
+        "discord": "pan4ur"
+      }
+    },
+    {
+      "name": "06ED",
+      "contact": {
+        "discord": "dinner_enjoyer"
+      }
+    }
+  ],
+  "license": "GNU General Public License v3.0",
+  "environment": "client",
+  "entrypoints": {
+    "main": [
+      "thunder.hack.ThunderHack"
+    ]
+  },
+  "contact": {
+    "sources": "https://github.com/Pan4ur/ThunderHack-Recode",
+    "homepage": "https://thunderhack-site.vercel.app",
+    "issues": "https://github.com/Pan4ur/ThunderHack-Recode/issues"
+  },
+  "mixins": [
+    "thunderhack.mixins.json"
+  ],
+  "depends": {
+    "fabricloader": "\u003e\u003d0.15.11",
+    "minecraft": "~1.21",
+    "java": "\u003e\u003d21"
+  },
+  "suggests": {
+    "sodium": "*",
+    "exordium": "*",
+    "starlight": "*",
+    "ias": "*",
+    "viafabricplus": "*"
+  },
+  "jars": [
+    {
+      "file": "META-INF/jars/netty-handler-proxy-4.1.112.Final.jar"
+    },
+    {
+      "file": "META-INF/jars/orbit-0.2.3.jar"
+    }
+  ]
+}

@@ -1,0 +1,70 @@
+plugins {
+    id 'fabric-loom' version '1.6-SNAPSHOT'
+    id 'idea'
+}
+
+version = '1.0-SNAPSHOT'
+group = 'com.deobf.enesbasurprime'
+
+base {
+    archivesName = 'enesbasurprime'
+}
+
+loom {
+    // Suppress errors from decompiled sources that reference mixin targets
+    runs {
+        client {
+            client()
+        }
+    }
+}
+
+repositories {
+    maven { url = 'https://maven.fabricmc.net/' }
+    maven { url = 'https://maven.meteordev.org/releases' }
+    maven { url = 'https://maven.meteordev.org/snapshots' }
+    maven { url = 'https://jitpack.io' }
+    maven { url = 'https://repo.spongepowered.org/maven' }
+    mavenCentral()
+}
+
+dependencies {
+    // Minecraft + Fabric
+    minecraft 'com.mojang:minecraft:1.21.1'
+    mappings 'net.fabricmc:yarn:1.21.1+build.3:v2'
+    modImplementation 'net.fabricmc:fabric-loader:0.16.9'
+
+    // Fabric API
+    modImplementation 'net.fabricmc.fabric-api:fabric-api:0.116.17+1.21.1'
+
+    // Meteor (orbit event bus that ThunderHack uses)
+    modImplementation 'meteordevelopment:orbit:0.2.3'
+
+    // Other deps ThunderHack uses
+    implementation 'com.google.guava:guava:32.1.3-jre'
+    implementation 'com.google.code.gson:gson:2.10.1'
+    implementation 'io.netty:netty-handler-proxy:4.1.112.Final'
+}
+
+java {
+    sourceCompatibility = JavaVersion.VERSION_21
+    targetCompatibility = JavaVersion.VERSION_21
+    toolchain { languageVersion = JavaLanguageVersion.of(21) }
+    withSourcesJar()
+}
+
+tasks.withType(JavaCompile).configureEach {
+    options.encoding = 'UTF-8'
+    options.compilerArgs += ['-Xlint:none', '-Xmaxerrs', '1000']
+    options.release = 21
+}
+
+tasks.withType(AbstractArchiveTask).configureEach {
+    duplicatesStrategy = DuplicatesStrategy.EXCLUDE
+}
+
+jar {
+    from('LICENSE') {
+        rename { "${it}_${project.archivesBaseName}" }
+    }
+}
